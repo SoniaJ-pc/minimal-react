@@ -1,53 +1,52 @@
-import PropTypes from 'prop-types';
-import React from 'react';
+import PropTypes from 'prop-types'
+import React from 'react'
 
-import Stack from '@mui/material/Stack';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import { useTheme } from '@mui/material/styles';
-import IconButton from '@mui/material/IconButton';
+import Stack from '@mui/material/Stack'
+import AppBar from '@mui/material/AppBar'
+import Toolbar from '@mui/material/Toolbar'
+import { useTheme } from '@mui/material/styles'
+import IconButton from '@mui/material/IconButton'
 
+import { bgBlur } from '../../theme/css'
 
-import { bgBlur } from '../../theme/css';
+import Logo from '../logo'
+import SvgColor from '../svg-color'
+import { useSettingsContext } from '../settings'
 
-import Logo from '../logo';
-import SvgColor from '../svg-color';
-import { useSettingsContext } from '../settings';
-
-import { NAV, HEADER } from '../layout/config-layout';
-import SettingsButton from '../common/settings-button';
-import AccountPopover from '../common/account-popover';
-import ContactsPopover from '../common/contacts-popover';
-import LanguagePopover from '../common/language-popover';
-import NotificationsPopover from '../common/notifications-popover';
-import { useOffSetTop } from '../common/hooks/use-off-set-top';
-import { useResponsive } from '../common/hooks/use-responsive';
-import Searchbar from '../common/searchbar';
+import { NAV, HEADER } from '../layout/config-layout'
+import SettingsButton from '../common/settings-button'
+import AccountPopover from '../common/account-popover'
+import ContactsPopover from '../common/contacts-popover'
+import LanguagePopover from '../common/language-popover'
+import NotificationsPopover from '../common/notifications-popover'
+import { useOffSetTop } from '../../hooks/use-off-set-top'
+import { useResponsive } from '../../hooks/use-responsive'
+import Searchbar from '../common/searchbar'
 
 // ----------------------------------------------------------------------
 
 export default function Header({ onOpenNav }) {
-  const theme = useTheme();
+  const theme = useTheme()
 
-  const settings = useSettingsContext();
+  const settings = useSettingsContext()
 
-  const isNavHorizontal = settings.themeLayout === 'horizontal';
+  const isNavHorizontal = settings.themeLayout === 'horizontal'
 
-  const isNavMini = settings.themeLayout === 'mini';
+  const isNavMini = settings.themeLayout === 'mini'
 
-  const lgUp = useResponsive('up', 'lg');
+  const lgUp = useResponsive('up', 'lg')
 
-  const offset = useOffSetTop(HEADER.H_DESKTOP);
+  const offset = useOffSetTop(HEADER.H_DESKTOP)
 
-  const offsetTop = offset && !isNavHorizontal;
+  const offsetTop = offset && !isNavHorizontal
 
   const renderContent = (
     <>
-     {lgUp && isNavHorizontal && <Logo sx={{ mr: 2.5 }} />}
+      {lgUp && isNavHorizontal && <Logo sx={{ mr: 2.5 }} />}
 
       {!lgUp && (
         <IconButton onClick={onOpenNav}>
-          <SvgColor src="/assets/icons/navbar/ic_menu_item.svg"  />
+          <SvgColor src='/assets/icons/navbar/ic_menu_item.svg' />
         </IconButton>
       )}
 
@@ -55,9 +54,9 @@ export default function Header({ onOpenNav }) {
 
       <Stack
         flexGrow={1}
-        direction="row"
-        alignItems="center"
-        justifyContent="flex-end"
+        direction='row'
+        alignItems='center'
+        justifyContent='flex-end'
         spacing={{ xs: 0.5, sm: 1 }}
       >
         <LanguagePopover />
@@ -71,7 +70,7 @@ export default function Header({ onOpenNav }) {
         <AccountPopover />
       </Stack>
     </>
-  );
+  )
 
   return (
     <AppBar
@@ -111,9 +110,9 @@ export default function Header({ onOpenNav }) {
         {renderContent}
       </Toolbar>
     </AppBar>
-  );
+  )
 }
 
 Header.propTypes = {
   onOpenNav: PropTypes.func,
-};
+}

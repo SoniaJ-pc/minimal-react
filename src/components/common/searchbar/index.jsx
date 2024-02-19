@@ -1,77 +1,77 @@
-import parse from 'autosuggest-highlight/parse';
-import match from 'autosuggest-highlight/match';
-import { memo, useState, useCallback } from 'react';
-import React from 'react';
-import Box from '@mui/material/Box';
-import List from '@mui/material/List';
-import Stack from '@mui/material/Stack';
-import { useTheme } from '@mui/material/styles';
-import InputBase from '@mui/material/InputBase';
-import IconButton from '@mui/material/IconButton';
-import InputAdornment from '@mui/material/InputAdornment';
-import Dialog, { dialogClasses } from '@mui/material/Dialog';
+import parse from 'autosuggest-highlight/parse'
+import match from 'autosuggest-highlight/match'
+import { memo, useState, useCallback } from 'react'
+import React from 'react'
+import Box from '@mui/material/Box'
+import List from '@mui/material/List'
+import Stack from '@mui/material/Stack'
+import { useTheme } from '@mui/material/styles'
+import InputBase from '@mui/material/InputBase'
+import IconButton from '@mui/material/IconButton'
+import InputAdornment from '@mui/material/InputAdornment'
+import Dialog, { dialogClasses } from '@mui/material/Dialog'
 
+import { useBoolean } from '../../../hooks/use-boolean'
+import { useResponsive } from '../../../hooks/use-responsive'
+import { useEventListener } from '../../../hooks/use-event-listener'
 
-import { useBoolean } from '../hooks/use-boolean';
-import { useResponsive } from '../hooks/use-responsive';
-import { useEventListener } from '../hooks/use-event-listener';
+import Label from '../../label'
+import Iconify from '../../iconify'
+import Scrollbar from '../../scrollbar'
 
-import Label from '../../label';
-import Iconify from '../../iconify';
-import Scrollbar from '../../scrollbar';
-
-import ResultItem from './result-item';
-import { useNavData } from '../../layout/config-navigation';
-import { applyFilter, groupedData, getAllItems } from './utils';
+import ResultItem from './result-item'
+import { useNavData } from '../../layout/config-navigation'
+import { applyFilter, groupedData, getAllItems } from './utils'
 
 // ----------------------------------------------------------------------
 
 function Searchbar() {
-  const theme = useTheme();
+  const theme = useTheme()
 
+  const search = useBoolean()
 
-  const search = useBoolean();
+  const lgUp = useResponsive('up', 'lg')
 
-  const lgUp = useResponsive('up', 'lg');
+  const [searchQuery, setSearchQuery] = useState('')
 
-  const [searchQuery, setSearchQuery] = useState('');
-
-  const navData = useNavData();
+  const navData = useNavData()
 
   const handleClose = useCallback(() => {
-    search.onFalse();
-    setSearchQuery('');
-  }, [search]);
+    search.onFalse()
+    setSearchQuery('')
+  }, [search])
 
   const handleKeyDown = (event) => {
     if (event.key === 'k' && event.metaKey) {
-      search.onToggle();
-      setSearchQuery('');
+      search.onToggle()
+      setSearchQuery('')
     }
-  };
+  }
 
-  useEventListener('keydown', handleKeyDown);
-
-  
+  useEventListener('keydown', handleKeyDown)
 
   const handleSearch = useCallback((event) => {
-    setSearchQuery(event.target.value);
-  }, []);
+    setSearchQuery(event.target.value)
+  }, [])
 
   const dataFiltered = applyFilter({
     inputData: getAllItems({ data: navData }),
     query: searchQuery,
-  });
+  })
 
   const renderButton = (
-    <Stack direction="row" alignItems="center">
+    <Stack direction='row' alignItems='center'>
       <IconButton onClick={search.onTrue}>
-        <Iconify icon="eva:search-fill" />
+        <Iconify icon='eva:search-fill' />
       </IconButton>
 
-      {lgUp && <Label sx={{ px: 0.75, fontSize: 12, color: 'text.secondary' }}>⌘K</Label>}
+      {lgUp && (
+        <Label sx={{ px: 0.75, fontSize: 12, color: 'text.secondary' }}>
+          ⌘K
+        </Label>
+      )}
     </Stack>
-  );
+  )
 
   return (
     <>
@@ -79,7 +79,7 @@ function Searchbar() {
 
       <Dialog
         fullWidth
-        maxWidth="sm"
+        maxWidth='sm'
         open={search.value}
         onClose={handleClose}
         transitionDuration={{
@@ -102,15 +102,23 @@ function Searchbar() {
           <InputBase
             fullWidth
             autoFocus
-            placeholder="Search..."
+            placeholder='Search...'
             value={searchQuery}
             onChange={handleSearch}
             startAdornment={
-              <InputAdornment position="start">
-                <Iconify icon="eva:search-fill" width={24} sx={{ color: 'text.disabled' }} />
+              <InputAdornment position='start'>
+                <Iconify
+                  icon='eva:search-fill'
+                  width={24}
+                  sx={{ color: 'text.disabled' }}
+                />
               </InputAdornment>
             }
-            endAdornment={<Label sx={{ letterSpacing: 1, color: 'text.secondary' }}>esc</Label>}
+            endAdornment={
+              <Label sx={{ letterSpacing: 1, color: 'text.secondary' }}>
+                esc
+              </Label>
+            }
             inputProps={{
               sx: { typography: 'h6' },
             }}
@@ -118,12 +126,11 @@ function Searchbar() {
         </Box>
 
         <Scrollbar sx={{ p: 3, pt: 2, height: 400 }}>
-          <Text>No Data Found
-            </Text>
+          <Text>No Data Found</Text>
         </Scrollbar>
       </Dialog>
     </>
-  );
+  )
 }
 
-export default memo(Searchbar);
+export default memo(Searchbar)
